@@ -94,6 +94,7 @@
 - Kalinin Alexander — [@Agar1us](https://t.me/Agar1us)
 - Alexey Lunyakov — [@bazarov](https://t.me/al_goodini)
 - Chufistov Georgy — [@schizoid21century](https://t.me/schizoid21century)
+- Преобразование маски сегментации в bounding box [тык сюда](https://github.com/nikhilroxtomar/Semantic-Segmentation-Mask-to-Bounding-Box/blob/main/mask_to_bbox.py) 
 
 Ссылка на проект: [Цифровой прорыв. MegaMen](https://github.com/mireaMegaman/hackaton)
 
