@@ -4,7 +4,7 @@
 <br />
 <div align="center">
 
-  <h3 align="center">hackaton</h3>
+  <h3 align="center">Hackaton. MegaMen</h3>
 
   <p align="center">
     <i>Репозиторий для кода хакатона "Цифровой прорыв"</i>
