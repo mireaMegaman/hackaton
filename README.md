@@ -7,7 +7,7 @@
   <h3 align="center">Hackaton. MegaMen</h3>
 
   <p align="center">
-    <i>Репозиторий для кода хакатона "Цифровой прорыв"</i>
+    <i>Репозиторий для хакатона "Цифровой прорыв"</i>
     <br />
     <!--добавить метки нужным полям-->
     <a href="https://habr.com/ru/articles/659791/"><mark>Разметка данных при помощи label studio</mark></a> 
