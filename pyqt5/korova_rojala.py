@@ -4,8 +4,9 @@ from PyQt5 import QtCore
 from ultralytics import YOLO
 from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QPushButton, QLineEdit, QFrame
 from PyQt5.QtCore import Qt
-# from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap
 from zipfile import ZipFile
+import shutil
 
 
 class DragDropImage(QWidget):
@@ -14,7 +15,7 @@ class DragDropImage(QWidget):
         self.tmp = 'wertyui'
         self.arr = []
         self.setStyleSheet("background-color: white;")
-        #self.model = YOLO('best_2.pt')
+        self.model = YOLO('best_2.pt')
         # настройки окна
         self.setWindowTitle('Drag and Drop Image')
         self.setGeometry(200, 200, 850, 680)
@@ -142,9 +143,15 @@ class DragDropImage(QWidget):
                 self.tmp = event.mimeData().urls()[-1].toLocalFile()
                 self.image_label.setText('ZIP-файл успешно загружен.')
                 self.app_label3.setText('1')
+            else:
+                self.tmp = event.mimeData().urls()[-1].toLocalFile()
+                image = QPixmap(self.tmp)
+                self.display_image(image.scaled(450, 450))
+                self.app_label3.setText('1')
         else:
             event.ignore()
-            self.setText('\n\n Загрузите зип-файл. \n\n')
+            shutil.rmtree('./runs/detect/predict')
+            self.setText('\n\n Загрузите zip-файл. \n\n')
 
     def set_path(self):
         model = self.text_input.text()
@@ -160,16 +167,20 @@ class DragDropImage(QWidget):
 
     def accept_image(self):
         print(self.tmp)
-        with ZipFile(self.tmp) as zip_file:
-            arr = list(map(lambda x: str(x).split("'")[1], zip_file.infolist()))
-            print(arr)
-            for img_name in arr:
-                try:
-                    zip_file.extract(img_name)
-                    # result = self.model.predict(source=img_name, save_crop=True)
-                    os.remove(img_name, dir_fd=None)
-                except:
-                    continue
+        if self.tmp.split('.')[-1] == 'zip':
+            with ZipFile(self.tmp) as zip_file:
+                arr = list(map(lambda x: str(x).split("'")[1], zip_file.infolist()))
+                print(arr)
+                for img_name in arr:
+                    try:
+                        zip_file.extract(img_name, path='.')
+                        result = self.model.predict(source=img_name, save_crop=True)
+                        os.remove(img_name, dir_fd=None)
+                    except:
+                        continue
+        else:
+            result = self.model.predict(source=self.tmp, save_crop=True)
+        shutil.rmtree('runs')
         self.image_label.setText('Подтверждено, проверка.')
 
 
